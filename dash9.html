@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Dashboard</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e1d7f0; /* Light purple background color */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .dashboard-element {
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .oee-details, .conveyor-details {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        #oee-requirement, #performance, #quality, #availability, #conveyor-green, #conveyor-blue, #conveyor-grey {
+            flex: 1;
+            font-size: 18px;
+        }
+
+        #scan-graph, #conveyor-graph {
+            width: 80%;
+            max-width: 600px;
+            height: 300px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Production Dashboard</h1>
+
+    <!-- OEE Requirement Element -->
+    <div class="dashboard-element oee-details">
+        <!-- OEE Requirement -->
+        <div>
+            <p>Overall Equipment Efficiency (OEE) Requirement:</p>
+            <p id="oee-requirement">85%</p>
+        </div>
+
+        <!-- Performance -->
+        <div>
+            <p>Performance:</p>
+            <p id="performance">80%</p>
+        </div>
+
+        <!-- Quality -->
+        <div>
+            <p>Quality:</p>
+            <p id="quality">90%</p>
+        </div>
+
+        <!-- Availability -->
+        <div>
+            <p>Availability:</p>
+            <p id="availability">95%</p>
+        </div>
+    </div>
+
+    <!-- Scan Graph Element -->
+    <div class="dashboard-element" id="scan-graph">
+        <canvas id="itemScanChart"></canvas>
+    </div>
+
+    <!-- Conveyor Details Element -->
+    <div class="dashboard-element conveyor-details">
+        <!-- Conveyor Green -->
+        <div>
+            <p>Conveyor Green:</p>
+            <p id="conveyor-green">150 items</p>
+        </div>
+
+        <!-- Conveyor Blue -->
+        <div>
+            <p>Conveyor Blue:</p>
+            <p id="conveyor-blue">120 items</p>
+        </div>
+
+        <!-- Conveyor Grey -->
+        <div>
+            <p>Conveyor Grey:</p>
+            <p id="conveyor-grey">100 items</p>
+        </div>
+    </div>
+
+    <!-- Add your JavaScript for the graphs here -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Replace this with your actual data
+        var scannedItemsData = [50, 60, 80, 90, 75, 100, 120];
+        var conveyorGreenData = [30, 40, 20, 50, 60, 45, 70];
+        var conveyorBlueData = [20, 25, 30, 35, 40, 45, 50];
+        var conveyorGreyData = [15, 20, 25, 30, 35, 40, 45];
+        
+        var ctx1 = document.getElementById('itemScanChart').getContext('2d');
+        var itemScanChart = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+                datasets: [{
+                    label: 'Items Scanned',
+                    data: scannedItemsData,
+                    borderColor: '#2196F3', // Blue color for the line
+                    backgroundColor: 'rgba(33, 150, 243, 0.1)', // Light blue background
+                    borderWidth: 2,
+                    fill: true,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: 'category',
+                        title: {
+                            display: true,
+                            text: 'Days'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Number of Items'
+                        }
+                    }
+                }
+            }
+        });
+
+        var ctx2 = document.getElementById('conveyorChart').getContext('2d');
+        var conveyorChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+                datasets: [{
+                    label: 'Conveyor Green',
+                    data: conveyorGreenData,
+                    backgroundColor: 'rgba(76, 175, 80, 0.7)', // Green color for the bars
+                    borderWidth: 1
+                },
+                {
+                    label: 'Conveyor Blue',
+                    data: conveyorBlueData,
+                    backgroundColor: 'rgba(33, 150, 243, 0.7)', // Blue color for the bars
+                    borderWidth: 1
+                },
+                {
+                    label: 'Conveyor Grey',
+                    data: conveyorGreyData,
+                    backgroundColor: 'rgba(158, 158, 158, 0.7)', // Grey color for the bars
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: 'category',
+                        title: {
+                            display: true,
+                            text: 'Days'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Number of Items'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
